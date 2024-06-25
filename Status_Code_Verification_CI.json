@@ -1,0 +1,1881 @@
+{
+	"info": {
+		"_postman_id": "d08df551-1508-4f7e-8c46-27b83c4b6926",
+		"name": "Status_Code_Verification_CI Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29925721",
+		"_collection_link": "https://warped-star-165697.postman.co/workspace/My-Workspace~623ccbe3-1e87-4250-8fc2-233f0513d560/collection/29925721-d08df551-1508-4f7e-8c46-27b83c4b6926?action=share&source=collection_link&creator=29925721"
+	},
+	"item": [
+		{
+			"name": "Get Access Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"bearer_token\",jsonData.access_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "audience",
+							"value": "{{audience}}",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						},
+						{
+							"key": "realm",
+							"value": "{{realm}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "{{scope}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{auth0_domain}}/oauth/token",
+					"protocol": "https",
+					"host": [
+						"{{auth0_domain}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				},
+				"description": "This is the OAuth 2.0 grant that highly trusted apps utilize in order to access an API. In this flow the end-user is asked to fill in credentials (username/password) typically using an interactive form. This information is later on sent to the Client and the Authorization Server. It is therefore imperative that the Client is absolutely trusted with this information."
+			},
+			"response": []
+		},
+		{
+			"name": "kpiMetrix",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"startDate\": 2021,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/kpi",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"kpi"
+					]
+				},
+				"description": "KPI Metris"
+			},
+			"response": []
+		},
+		{
+			"name": "Filters",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"search\": \"\",\r\n // \"entity\": \"pharmaClass\",\r\n  \"filters\": {\r\n    \"startDate\": 2021,\r\n    \"endDate\": 2028,\r\n    \"indicationLevel3s\": [\r\n      57\r\n    ],\r\n    \"largeCapCompany\": \"All\",\r\n    \"fastTrack\": \"All\",\r\n    \"companies\": [\r\n      1293\r\n    ],\r\n    \"products\": [\r\n      84757\r\n    ],\r\n    \"pipelineStatus\": [\r\n      \"Research project\",\r\n      \"Marketed\",\r\n      \"Pre-clinical\",\r\n      \"Phase I\",\r\n      \"Phase II\",\r\n      \"Phase III\",\r\n      \"Filed\",\r\n      \"Approved\"\r\n    ],\r\n    \"trialStatus\": [\r\n      \"Planned\",\r\n      \"Open\",\r\n      \"Temporarily Closed\",\r\n      \"Closed\"\r\n    ],\r\n    \"trialPhase\": [\r\n      \"I\",\r\n      \"I/II\",\r\n      \"II\",\r\n      \"II/III\",\r\n      \"III\",\r\n      \"III/IV\",\r\n      \"IV\"\r\n    ]\r\n  },\r\n  \"offset\": 0,\r\n  \"limit\": 50,\r\n  \"domain\": \"norstella.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/filters",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"filters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ww-sales",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2021,\r\n  \"endDate\": 2028,\r\n   \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/ww-sales",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"ww-sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2021,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [\r\n    {{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ],\r\n  \"limit\": 10,\r\n  \"offset\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-5-companies-by-pipeline",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2021,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"companies\": [\r\n    1293\r\n  ],\r\n  \"products\": [\r\n    84757\r\n  ],\r\n  \"pipelineStatus\": [\r\n    \"Research project\",\r\n    \"Pre-clinical\",\r\n    \"Phase I\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Filed\"\r\n  ],\r\n  \"entity\": \"chart\",\r\n  \"specific\": \"citeline\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/top-5-companies-by-pipeline",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"top-5-companies-by-pipeline"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "market-size-by-sales",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2021,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/market-size-by-sales",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"market-size-by-sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "conference-events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"clientDate\": \"2024-02-20\",\r\n  \"limit\": 10,\r\n  \"offset\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/conference-events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"conference-events"
+					]
+				},
+				"description": "Note : This API has data for both conference events and conference lists"
+			},
+			"response": []
+		},
+		{
+			"name": "ww-top-products-sales",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2022,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [\r\n    57\r\n  ],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/ww-top-products-sales",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"ww-top-products-sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "historical-market-events-entity(Event)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2014,\r\n  \"endDate\": 2024,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ],\r\n  \"entity\": \"eventType\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/historical-market-events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"historical-market-events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "historical-market-events-entity(Impact)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2014,\r\n  \"endDate\": 2024,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ],\r\n  \"entity\": \"impact\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/historical-market-events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"historical-market-events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "catalysts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"catalystStartDate\": \"2024-04-29\",\r\n  \"catalystEndDate\": \"2026-04-29\",\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Research project\",\r\n    \"Marketed\",\r\n    \"Pre-clinical\",\r\n    \"Phase I\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Filed\",\r\n    \"Approved\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ],\r\n  \"clientDate\": \"2024-04-29\",\r\n  \"limit\": 10,\r\n  \"offset\": 0,\r\n  \"entity\": \"catalystImpact\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/catalysts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"catalysts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "event-news",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2021,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"limit\": 10,\r\n  \"offset\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/event-news",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"event-news"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "catalyst-news",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"clientDate\": \"2024-02-21\",\r\n  \"limit\": 10,\r\n  \"offset\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/catalyst-news",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"catalyst-news"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "risk-return",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2014,\r\n  \"endDate\": 2024,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/risk-return",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"risk-return"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upcoming-conferences",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"clientDate\": \"2024-02-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/upcoming-conferences",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"upcoming-conferences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "trial-overview",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ],\r\n  \"entity\": \"overview\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/trial-overview",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"trial-overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clinical-trials-timeline",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/clinical-trials-timeline",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"clinical-trials-timeline"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approval-timeline-metrics",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"clientDate\": \"2024-02-21\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/approval-timeline-metrics",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"approval-timeline-metrics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "risk-metrics",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2014,\r\n  \"endDate\": 2024,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/risk-return",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"risk-return"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "conference-events-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Research project\",\r\n    \"Marketed\",\r\n    \"Pre-clinical\",\r\n    \"Phase I\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Filed\",\r\n    \"Approved\"\r\n  ],\r\n  \"clientDate\": \"2024-04-29\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/conference-events-list",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"conference-events-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ps-ptrs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ],\r\n  \"clientDate\": \"2024-02-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.test.compintel.norstella-labs.com/api/v1/data/ps-ptrs",
+					"protocol": "https",
+					"host": [
+						"api",
+						"test",
+						"compintel",
+						"norstella-labs",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"ps-ptrs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-product-sales-by-2028",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2022,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}\r\n    ],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n      \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/top-products-sales",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"top-products-sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-company-sales-by-2028",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2022,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/top-company-sales",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"top-company-sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pipeline-summary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"companies\": [\r\n    1293\r\n  ],\r\n  \"products\": [\r\n    84757\r\n  ],\r\n  \"pipelineStatus\": [\r\n    \"Research project\",\r\n    \"Pre-clinical\",\r\n    \"Phase I\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Filed\"\r\n  ],\r\n  \"entity\": \"chart\",\r\n  \"specific\": \"citeline\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/pipeline-summary",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"pipeline-summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "country-clinical-trials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/country-clinical-trials",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"country-clinical-trials"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-market-sales",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/top-market-sales",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"top-market-sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "trial-timeline",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [\r\n    57\r\n  ],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"trialStatus\": [\r\n    \"Planned\",\r\n    \"Open\"\r\n  ],\r\n  \"trialPhase\": [\r\n    \"I\",\r\n    \"I/II\",\r\n    \"II\",\r\n    \"II/III\",\r\n    \"III\",\r\n    \"III/IV\",\r\n    \"IV\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/trial-timeline",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"trial-timeline"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approval-timeline",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"clientDate\": \"2024-02-20\",\r\n  \"limit\": 10,\r\n  \"offset\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/approval-timeline",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"approval-timeline"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approval-timeline-metrics",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"clientDate\": \"2024-02-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/approval-timeline-metrics",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"approval-timeline-metrics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "event-timeline",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2014,\r\n  \"endDate\": 2024,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/event-timeline",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"event-timeline"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "risk-return?limit=10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2021,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"limit\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/risk-return?limit=10",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"risk-return"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "commercial-risk-return?limit=10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDate\": 2021,\r\n  \"endDate\": 2028,\r\n  \"indicationLevel3s\": [\r\n    57\r\n  ],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Research project\",\r\n    \"Marketed\",\r\n    \"Pre-clinical\",\r\n    \"Phase I\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Filed\",\r\n    \"Approved\"\r\n  ],\r\n  \"entity\": \"topPredictedCommercialSales\",\r\n  \"limit\": 500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/commercial-risk-return?limit=500",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"commercial-risk-return"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deal-timeline",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"clientDate\": \"2024-02-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/deal-timeline",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"deal-timeline"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deal-value",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [\r\n    {{indicationLevel3}}\r\n  ],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"entity\": \"technology\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/deal-value",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"deal-value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deal-summary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/deal-summary",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"deal-summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "news-headlines",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [\r\n    57\r\n  ],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"limit\": 10,\r\n  \"offset\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/news-headlines",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"news-headlines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "event-analyzer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"indicationLevel3s\": [{{indicationLevel3}}],\r\n  \"largeCapCompany\": \"All\",\r\n  \"fastTrack\": \"All\",\r\n  \"pipelineStatus\": [\r\n    \"Phase I\",\r\n    \"Marketed\",\r\n    \"Phase II\",\r\n    \"Phase III\",\r\n    \"Approved\",\r\n    \"Filed\",\r\n    \"Pre-clinical\"\r\n  ],\r\n  \"limit\": 10,\r\n  \"offset\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/data/event-analyzer",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"event-analyzer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notification API",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://notification-api.uat.nxp.norstella-labs.com/v2/notifications?appId=stratintel&pageNumber=1&pageSize=10",
+					"protocol": "https",
+					"host": [
+						"notification-api",
+						"uat",
+						"nxp",
+						"norstella-labs",
+						"com"
+					],
+					"path": [
+						"v2",
+						"notifications"
+					],
+					"query": [
+						{
+							"key": "appId",
+							"value": "stratintel"
+						},
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearer_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "bearer_token",
+			"value": "default",
+			"type": "string"
+		}
+	]
+}
